@@ -1,12 +1,10 @@
 package com.scaler.fakestoreapplication.controller;
 
+import com.scaler.fakestoreapplication.DTO.FakeStoreProductDto;
 import com.scaler.fakestoreapplication.model.Product;
 import com.scaler.fakestoreapplication.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.*;
 
@@ -38,6 +36,24 @@ public class ProductController {
        }
         return products;
     }
+
+    @PostMapping("/products")
+    public Product addProduct(@RequestBody FakeStoreProductDto product) {
+        Product productWithId = productService.addProduct(product);
+        return productWithId;
+    }
+
+    @PutMapping("/products/{id}")
+    public Product updateProduct(@PathVariable("id") int id, @RequestBody FakeStoreProductDto product) {
+        Product product_ = productService.updateProduct(id, product);
+        return product_;
+    }
+
+    @DeleteMapping("/products/{id}")
+    public void deleteProduct(@PathVariable("id") int id){
+        productService.deleteProduct(id);
+    }
+
 }
 
 class ProductsComparatorById implements Comparator<Product> {
